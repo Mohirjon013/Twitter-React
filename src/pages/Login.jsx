@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import LogoImg from '../assets/images/logo.svg'
-import InputStyle from '../components/inputStyle'
+import InputStyle from '../components/InputStyle'
 import { Link } from "react-router-dom";
 import loadingGif from '../assets/images/loading.gif'
 import { Context } from '../context/AuthContext';
