@@ -4,14 +4,9 @@ import LoginRoute from "./routes/LoginRoute"
 import { Context } from "./context/AuthContext"
 
 function App() {
-
   const {token} = useContext(Context)
-  if(token){
-    return <Dashboard/>
-  }
-  else{
-    return <LoginRoute/>
-  }
+  if(token) return <Dashboard/>
+  else return <LoginRoute/>
 }
 
 export default App

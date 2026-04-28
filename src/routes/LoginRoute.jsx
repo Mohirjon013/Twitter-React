@@ -4,12 +4,10 @@ import { Login, Register } from '../pages'
 
 function LoginRoute() {
     return (
-        
         <Routes>
             <Route path='/' element={<Login/>} />
             <Route path='/sign-up' element={<Register/>} />
         </Routes>
-        
     )
 }
 

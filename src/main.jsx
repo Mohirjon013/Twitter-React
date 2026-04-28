@@ -3,9 +3,12 @@ import './index.css'
 import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
 import { AuthContext } from './context/AuthContext.jsx'
+import { Toaster } from 'react-hot-toast'
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
+    <Toaster position="top-right"reverseOrder={false}/>
+    
     <AuthContext>
       <App />
     </AuthContext>

@@ -4,27 +4,27 @@ import InputStyle from '../components/InputStyle'
 import { Link } from "react-router-dom";
 import loadingGif from '../assets/images/loading.gif'
 import { Context } from '../context/AuthContext';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 function Login() {
-  const {setToken} = useContext(Context)
+  const {user, setToken} = useContext(Context)
   const [loading, setLoading] = useState(false)
 
   function handleSubmit(e){
     e.preventDefault()
 
     const data ={
-      id:crypto.randomUUID(),
       login:e.target.email.value.trim(),
-      password:e.target.password.value,
+      password:e.target.password.value.trim(),
     }
-
-
-    if(data.login == 'mohir' && data.password == '123'){
-      toast.success('Welcome to Twitter !')
+   
+    const filteredUser = user.find(item => item.login === data.login && item.password === data.password)
+    if(filteredUser){
       setLoading(true)
+      toast.success(`Welcome to Twitter "${data.login.toUpperCase()}"`)
+
       setTimeout(() => {
-        setToken(data)
+        setToken(filteredUser)
         setLoading(false)
       },1000)
     }
@@ -33,14 +33,13 @@ function Login() {
       setTimeout(() => {
         toast.error('User is not found !')
         setLoading(false)
+        e.target.reset()
       },1000)
     }
   }
-
   
   return (
     <form onSubmit={handleSubmit} className='w-[450px] mx-auto mt-[80px]'>
-      <Toaster position="top-right"reverseOrder={false}/>
       <img src={LogoImg} alt="logo-img" width={50} height={40} />
       <h1 className='text-[42px] font-extrabold'>Log in to Twitter</h1>
 
@@ -50,7 +49,6 @@ function Login() {
       <button type='submit' className='w-full h-[59px] py-[18px] mt-[25px] text-[18px] text-white font-extrabold bg-[#1DA1F2] rounded-[76px] cursor-pointer hover:opacity-70 duration-300'>
         {loading ? <img className='scale-[3] mx-auto' src={loadingGif} alt='loading' width={22} /> : 'Log In'}
       </button>
-      
 
       <div className="mt-[40px] flex justify-between">
         <p className='text-[18px] font-normal text-[#1DA1F2]' >Forgot password?</p>
