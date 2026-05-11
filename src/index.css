@@ -1,6 +1,35 @@
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Segoe UI', system-ui, sans-serif;
+}
+
 .active{
-    color: black !important;
-    font-weight: 800;
+  color: black !important;
+  font-weight: 700;
+}
+
+* {
+  font-family: 'Segoe UI', system-ui, sans-serif !important;
+}
+body{
+  overflow-y: hidden;
+}
+
+
+
+body.dark {
+  background: #15202B;
+  color: white;
+}
+
+/* body.dark input {
+  background: transparent;
+  color: white;
+} */
+
+body.dark .border-y-\[#D8D8D8\] {
+  border-color: #38444d;
 }

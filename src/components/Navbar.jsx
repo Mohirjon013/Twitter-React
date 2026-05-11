@@ -1,30 +1,38 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import logoImg from '../assets/images/logo.svg'
-import more from '../assets/images/more.svg'
+import logoDark from '../assets/images/logo-dark.svg'
+
 import owl from '../assets/images/owl.jpg'
 
-import { BookmarksIcon, ExploreIcon, HomeIcon, ListIcon, MessageIcon, MoreIcon, NotificationIcon, ProfileIcon } from '../assets/images/icons'
-import { NavLink } from 'react-router-dom'
+import { BookmarksActive, BookmarksIcon, ExploreActive, ExploreIcon, HomeActive, HomeIcon, ListActive, ListIcon, MessageIcon, MoreIcon, MoreIcons, NotificationActive, NotificationIcon, ProfileActive, ProfileIcon } from '../assets/images/icons'
+import { NavLink, useLocation } from 'react-router-dom'
 import Modal from './Modal'
 import { Context } from '../context/AuthContext'
 
-const navbarLink = [
+
+function Navbar() {
+  const [modalOut, setModalOut] = useState(false)
+  const { name,dark } = useContext(Context)
+  const {pathname} = useLocation()
+
+
+  const navbarLink = [
     {
       id:1,
       title:'Home',
-      icon:<HomeIcon/>,
+      icon:pathname == '/' ? <HomeActive/> : <HomeIcon/>,
       path:'/'
     },
     {
       id:2,
       title:'Explore',
-      icon:<ExploreIcon/>,
+      icon:pathname == '/explore' ? <ExploreActive/> : <ExploreIcon/>,
       path:'/explore'
     },
     {
       id:3,
       title:'Notifications',
-      icon:< NotificationIcon/>,
+      icon:pathname == '/notifications' ? <NotificationActive/> : <NotificationIcon/>,
       path:'/notifications'
     },
     {
@@ -36,19 +44,19 @@ const navbarLink = [
     {
       id:5,
       title:'Bookmarks',
-      icon:<BookmarksIcon/>,
+      icon:pathname == '/bookmarks' ? <BookmarksActive/> : <BookmarksIcon/>,
       path:'/bookmarks'
     },
     {
       id:6,
       title:'Lists',
-      icon:<ListIcon/>,
+      icon:pathname == '/list' ? <ListActive/> : <ListIcon/>,
       path:'/list'
     },
     {
       id:7,
       title:'Profile',
-      icon:<ProfileIcon/>,
+      icon:pathname.includes('/profile') ? <ProfileActive/> : <ProfileIcon/>,
       path:'/profile'
     },
     {
@@ -57,19 +65,20 @@ const navbarLink = [
       icon:<MoreIcon/>,
       path:'/more'
     },
-]
-function Navbar() {
-  const {setIsModal} = useContext(Context)
+  ]
+  
 
   const handleLogOut = () => {
     window.localStorage.removeItem('token')
     window.location.reload()
   }
-  
+
+
   return (
     <>
-      <div className='w-[23%] h-[100vh] pt-[31px] pr-[16px] pl-35 relative'>
-        <img src={logoImg} alt="logo-img" width={40} height={33}/>
+      <div className='w-[23%] h-[100vh] overflow-y-auto pt-[31px] pr-[16px] pl-10 relative border-r-[2px] border-r-[#D8D8D8]'>
+        {dark === true ? <img className='w-[40px] h-[30px] scale-130' src={logoDark} alt="logo-img" width={40} height={33}/> : <img className='w-[40px] h-[30px]' src={logoImg} alt="logo-img" width={40} height={33}/>}
+        
         <div className="mt-[49px] space-y-[32px]">
           {
             navbarLink.map(item => (
@@ -88,23 +97,24 @@ function Navbar() {
         <div className="flex absolute bottom-[32px]">
           <img className='rounded-full mr-[10px]' src={owl} alt="owl-img" width={50} height={50} />
           <div className="">
-            <p className='text-[16px] font-semibold'>Bobur</p>
+            <p className='text-[16px] font-semibold'>{name?.toUpperCase()}</p>
             <span className='text-[16px] font-normal text-gray-500'>@bobur_mavlonov</span>
           </div>
-          <button onClick={() => setIsModal(true)} className='cursor-pointer duration-300 scale-115'>
-            <img className='ml-[48px]' src={more} alt="more" width={17} height={4} />
+          <button onClick={() => setModalOut(true)} className='cursor-pointer duration-300 scale-115 pl-6'>
+            <MoreIcons dark={dark}/>
           </button>
         </div>
 
         
       </div>
 
-      <Modal extraStyle={'h-[200px]'}>
-        <h2 className='text-center text-3xl text-white font-semibold mt-8'>Do you want to log out ?</h2>
+      <Modal setIsOpen={setModalOut} isOpen={modalOut} extraStyle={`h-[200px] ${dark && 'text-black'}`}>
+
+        <h2 className='text-center text-3xl  font-semibold mt-8'>Do you want to log out ?</h2>
 
         <div className="mt-11 px-3 flex justify-between">
-          <button onClick={handleLogOut} className='w-[48%] py-2 bg-[#7cc532] rounded-3xl text-white text-[25px] font-bold cursor-pointer duration-300 hover:opacity-80'>Yes</button>
-          <button onClick={() => setIsModal(false)} className='w-[48%] py-2 bg-[#ce2141] rounded-3xl text-white text-[25px] font-bold cursor-pointer duration-300 hover:opacity-80'>Cancel</button>
+          <button onClick={handleLogOut} className='w-[48%] py-2 bg-[#1DA1F2] rounded-3xl text-white text-[25px] font-bold cursor-pointer duration-300 hover:opacity-80'>Yes</button>
+          <button onClick={() => setModalOut(false)} className='w-[48%] py-2 bg-[#ce2141] rounded-3xl text-white text-[25px] font-bold cursor-pointer duration-300 hover:opacity-80'>Cancel</button>
         </div>
       </Modal>
     </>

@@ -1,15 +1,12 @@
 import React, { useContext } from 'react'
 import { Context } from '../context/AuthContext'
 
-function Modal({children, extraStyle}) {
-    const {isModal, setIsModal} = useContext(Context)
-    return (
-      <div onClick={(e) => e.target.id === 'wrapper' ? setIsModal(false) : ''} id='wrapper' className={`fixed inset-0 backdrop-blur-md duration-300 ${isModal ? 'scale-100' : 'scale-0'}`}>
-        <div className={`w-[600px] ${extraStyle} absolute inset-0 m-auto bg-[#498dd6] rounded-lg`}>
-          {children}
-        </div>
-      </div>
-    )
+function Modal({children, extraStyle, setIsOpen, isOpen}) {
+  return (
+    <div id='wrapper' onClick={(e) => e.target.id == "wrapper" ? setIsOpen(false) : ""} className={ `fixed duration-300 backdrop-blur inset-0 flex justify-center items-center bg-[#00000029] z-10 ${isOpen ? "scale-100" : "scale-0"}`}>
+      <div className={`w-[700px] ${extraStyle} bg-white p-5 rounded-lg`}>{children}</div>
+    </div>
+  )
 }
 
 export default Modal

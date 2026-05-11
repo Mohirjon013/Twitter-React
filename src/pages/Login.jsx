@@ -7,7 +7,7 @@ import { Context } from '../context/AuthContext';
 import toast from 'react-hot-toast';
 
 function Login() {
-  const {user, setToken} = useContext(Context)
+  const {user, setToken, setName} = useContext(Context)
   const [loading, setLoading] = useState(false)
 
   function handleSubmit(e){
@@ -25,6 +25,7 @@ function Login() {
 
       setTimeout(() => {
         setToken(filteredUser)
+        setName(filteredUser.login)
         setLoading(false)
       },1000)
     }

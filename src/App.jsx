@@ -5,6 +5,7 @@ import { Context } from "./context/AuthContext"
 
 function App() {
   const {token} = useContext(Context)
+  // let token = false
   if(token) return <Dashboard/>
   else return <LoginRoute/>
 }
